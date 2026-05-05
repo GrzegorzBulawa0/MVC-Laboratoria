@@ -1,0 +1,12 @@
+{% extends "wykaz_filmow/base.html" %}
+
+{% block content %}
+    <p>Dodaj nowy film:</p>
+
+    <form action="{% url 'wykaz_filmow:nowy_film' %}" method='post'>
+        {% csrf_token %}
+        <p>Tytuł filmu:</p>
+        {{ form.as_div }}
+        <button name="submit" class="btn">Dodaj film</button>
+    </form>
+{% endblock content %}

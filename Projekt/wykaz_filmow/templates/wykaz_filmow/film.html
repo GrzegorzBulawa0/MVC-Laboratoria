@@ -1,0 +1,51 @@
+{% extends "wykaz_filmow/base.html" %}
+
+{% block content %}
+    <p>Film: {{ film.text }}</p>
+    <p>Reżyser: {{ film.rezyser }}</p>
+    
+    <p>Oceny</p>
+    {% if not czy_ocenil %}
+    <p>
+        <a href="{% url 'wykaz_filmow:nowa_ocena' film.id %}">Dodaj nową ocene</a>
+    </p>
+    {% endif %}
+    
+    <p>Sortuj:</p>
+    <a href="?sort=best">Najlepsze</a>
+    <a href="?sort=worst">Najgorsze</a>
+    <a href="?sort=oldest">Najstarsze</a>
+    <a href="?">Najnowsze</a>
+    <ul>
+        {% for ocena in oceny %}
+            <li class="card">
+                <p>Data dodania: {{ ocena.date_added|date:'d M Y H:i' }}</p>
+                <p>Autor: {{ ocena.user.username }}</p>
+                <p>Ocena: {{ ocena.rating }}/10</p>
+                <p>{{ ocena.text|linebreaks }}</p>
+                <p>
+                    {% if ocena.user == request.user %}
+                        <a href="{% url 'wykaz_filmow:edit_ocena' ocena.id %}">Edytuj</a>
+                        <a href="{% url 'wykaz_filmow:delete_ocena' ocena.id %}">Usuń</a>
+                    {% endif %}
+                </p>
+            </li>
+            {% empty %}
+                <li class="card">Nie została dodana jeszcze żadna ocena.</li>
+            {% endfor %}
+    </ul>
+    <div style="margin-top: 20px;">
+        {% if oceny.has_previous %}
+            <a href="?page={{ oceny.previous_page_number }}&sort={{ request.GET.sort }}">Poprzednia</a>
+        {% endif %}
+
+        <span>
+            Strona {{ oceny.number }} / {{ oceny.paginator.num_pages }}
+        </span>
+
+        {% if oceny.has_next %}
+            <a href="?page={{ oceny.next_page_number }}&sort={{ request.GET.sort }}">następna</a>
+        {% endif %}
+    </div>
+    
+{% endblock content %}

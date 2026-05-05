@@ -1,0 +1,47 @@
+{% extends "wykaz_filmow/base.html" %}
+
+{% block content %}
+    <p>Filmy</p>
+    <form method="get">
+    <input type="text" name="q" placeholder="Szukaj filmu..." value="{{ request.GET.q }}">
+    <button type="submit" class="btn">Szukaj</button>
+    </form>
+    <a href="?q={{ request.GET.q }}&sort=best">Najlepsze</a>
+    <a href="?q={{ request.GET.q }}&sort=worst">Najgorsze</a>
+    <a href="?q={{ request.GET.q }}&sort=oldest">Najstarsze</a>
+    <a href="?">Najnowsze</a>
+    <ul>
+        {% for film in filmy %}
+            <li class="card">
+                <a href="{% url 'wykaz_filmow:film' film.id %}">{{ film.text }}</a>
+
+                {% if film.avg_rating %}
+                    (Średnia ocena: {{ film.avg_rating|floatformat:2 }} / Liczba ocen: {{ film.liczba_ocen }})
+                {% else %}
+                    (brak ocen)
+                {% endif %}
+            </li>
+            {% empty %}
+            <li class="card">Nie został jeszcze dodany żaden film.</li>
+        {% endfor %}
+    </ul>
+
+    <a href="{% url 'wykaz_filmow:nowy_film' %}">Dodaj nowy film do dyskusji</a>
+
+
+            <div style="margin-top: 20px;">
+                {% if filmy.has_previous %}
+                <a href="?page={{ filmy.previous_page_number }}&q={{ request.GET.q }}&sort={{ request.GET.sort }}">Poprzednia</a>
+                {% endif %}
+
+                <span>
+                    Strona {{ filmy.number }} / {{ filmy.paginator.num_pages }}
+                </span>
+
+                {% if filmy.has_next %}
+                    <a href="?page={{ filmy.next_page_number }}&q={{ request.GET.q }}&sort={{ request.GET.sort }}">Następna</a>
+                {% endif %}
+            </div>
+
+    
+{% endblock content %}
