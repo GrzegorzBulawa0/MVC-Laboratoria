@@ -1,0 +1,12 @@
+{% extends "wykaz_filmow/base.html" %}
+
+{% block content %}
+    <p><a href="{% url 'wykaz_filmow:film' film.id %}">{{ film }}</a></p>
+
+    <p>Dodaj nową ocene:</p>
+    <form action="{% url 'wykaz_filmow:nowa_ocena' film.id %}" method='post'>
+        {% csrf_token %}
+        {{ form.as_div }}
+        <button name = 'submit' class="btn">Dodaj Ocene</button>
+    </form>
+{% endblock content %}

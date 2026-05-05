@@ -1,0 +1,13 @@
+{% extends "wykaz_filmow/base.html" %}
+
+{% block content %}
+    <p>Wykaz filmów przedstawia filmy, komentarze i ich oceny.</p>
+    <p>Strona pozwala na:</p>
+    <ul>
+        <li class="card">Rejestracje i login użytkownika.</li>
+        <li class="card">Dodanie przez niego filmu do dyskusji -> Tytuł, reżyser</li>
+        <li class="card">Wyświetlenie listy dodanych filmów wraz z ich średnią oceną i liczbą ocen.</li>
+        <li class="card">Umożliwia zostawienie komentarza wraz z numeryczną oceną, pozwalając wyrazić użytkownikowi swoje zdanie o danym filmie.</li>
+        <li class="card">Dodany komentarz osoba która go dodała może edytować, bądź usunąć.</li>
+    </ul>
+{% endblock content %}

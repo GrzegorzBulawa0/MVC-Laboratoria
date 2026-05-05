@@ -1,0 +1,29 @@
+{% load static %}
+<head>
+    <meta charset="UTF-8">
+
+    <link rel="stylesheet" href="{% static 'wykaz_filmow/style.css' %}">
+</head>
+<p>
+    <a href="{% url 'wykaz_filmow:index' %}" class="navbar">Strona głowna</a> -
+    <a href="{% url 'wykaz_filmow:filmy' %}" class="navbar">Lista Filmów</a> -
+
+    {% if user.is_authenticated %}
+        Witaj, {{ user.username }}.
+    {% else %}
+        <a href="{% url 'accounts:register' %}" class="navbar">Zarejestruj</a>
+        <a href="{% url 'accounts:login' %}" class="navbar">Zaloguj</a>
+    {% endif %}
+</p>
+
+<div class="container">
+{% block content %} {% endblock content %}
+</div>
+
+{% if user.is_authenticated %}
+    <hr />
+    <form action="{% url 'accounts:logout' %}" method='post'>
+        {% csrf_token %}
+        <button name='submit' class="btn">Wyloguj</button>
+    </form>
+{% endif %}
